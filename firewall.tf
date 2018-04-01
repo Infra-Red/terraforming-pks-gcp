@@ -46,3 +46,29 @@ resource "google_compute_firewall" "allow-pks-all" {
   source_tags = ["${var.env_prefix}", "${var.env_prefix}-opsman", "nat-traverse"]
   target_tags = ["${var.env_prefix}", "${var.env_prefix}-opsman", "nat-traverse"]
 }
+
+// Allow access to master nodes
+resource "google_compute_firewall" "pks-master" {
+  name    = "${var.env_prefix}-pks-master"
+  network = "${google_compute_network.pks-network.name}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8443"]
+  }
+
+  target_tags = ["master"]
+}
+
+// Allow access to PKS API
+resource "google_compute_firewall" "pks-api" {
+  name    = "${var.env_prefix}-pks-api"
+  network = "${google_compute_network.pks-network.name}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9021", "8443"]
+  }
+
+  target_tags = ["${var.env_prefix}-pks-api"]
+}

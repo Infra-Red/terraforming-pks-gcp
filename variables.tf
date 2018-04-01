@@ -49,3 +49,9 @@ variable "services_cidr" {
 variable "opsman_image_url" {
   type = "string"
 }
+
+variable "pks_lb_count" {
+  type    = "string"
+  default = 1
+}
+
