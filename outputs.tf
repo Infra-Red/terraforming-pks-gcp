@@ -82,3 +82,11 @@ output "Services Network DNS" {
 output "Services Network Gateway" {
   value = "${cidrhost(var.services_cidr, 1)}"
 }
+
+output "pks_master_node_service_account_key" {
+  value = "${base64decode(element(concat(google_service_account_key.pks_master_node_service_account_key.*.private_key, list("")), 0))}"
+}
+
+output "pks_worker_node_service_account_key" {
+  value = "${base64decode(element(concat(google_service_account_key.pks_worker_node_service_account_key.*.private_key, list("")), 0))}"
+}
